@@ -2,7 +2,7 @@ import * as React from 'react';
 import "./categories.styles.css"
 import CategoryItem from "../category-item/category-item";
 
-const Catigories = ({ categories }) => {
+const Categories = ({ categories }) => {
     return (<React.Fragment>
         <div className="categories-container">
             {categories.map(({ title, id, imageUrl }) => {
@@ -14,4 +14,4 @@ const Catigories = ({ categories }) => {
     )
 };
 
-export default Catigories;
+export default Categories;
