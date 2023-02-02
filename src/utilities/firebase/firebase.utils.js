@@ -28,9 +28,9 @@ const firebaseConfig = {
 
 /*----------------------- Initialize Firebase -----------------------*/
 const app = initializeApp(firebaseConfig);
-
 /*----------------------- Authentication  -----------------------*/
 const provider = new GoogleAuthProvider();
+// e.g. const facebookProvider = new FacebookAuthProvider();
 provider.setCustomParameters({
     prompt: "select_account"
 });
@@ -38,6 +38,9 @@ const auth = getAuth();
 const signInWithGooglePopup = async () => {
     return await signInWithPopup(auth, provider)
 };
+const signInWithGoogleRedirect = async () => {
+    return await signInWithRedirect(auth, provider)
+}
 
 /*----------------------- Database  -----------------------*/
 //Create and instance(snapshot) of the database/Firestore
@@ -68,4 +71,4 @@ const createUserDocuementFromAuth = async (userAuthResponse) => {
     return userRef;
 }
 
-export { auth, signInWithGooglePopup, db, createUserDocuementFromAuth };
+export { auth, signInWithGooglePopup, signInWithGoogleRedirect, db, createUserDocuementFromAuth };
