@@ -1,31 +1,55 @@
 import { useState } from 'react';
+import { createAutheticateUserWithEmailAndPassword } from '../../utilities/firebase/firebase.auth';
+import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.database';
+import { Form } from '../../components/forms/sign-up/sign-up-form.component';
+import './sign-up.styles.scss';
+
 const defaultFormData = {
-    displayname: '',
+    displayName: '',
     email: '',
     password: '',
     confirmpassword: ''
 }
-console.log('defaultFormData:', defaultFormData)
 
-export const SignUpForm = () => {
-const [formField, setFormField] =  useState(defaultFormData);
-const handleChange = (event) => {
-    const {name, value} = event.target;
-    setFormField({...formField, [name]:value})
-}
-    return (
-        <div className="">
-            <form onSubmit={() => { }}>
-                <label htmlFor="display-name">Displayed Name</label>
-                <input type="text" placeholder="Displayed Name" required id="display-name" onChange={handleChange} name="displayname" value={formField.displayname}/>
-                <label htmlFor="email">Email</label>
-                <input type="email" placeholder="Email" required id="email" name="email" onChange={handleChange} value={formField.email}/>
-                <label htmlFor="new-password">Password</label>
-                <input type="password" placeholder="Password" required id="new-password" onChange={handleChange} name="password" value={formField.password} autoComplete="section-red shipping postal-code"/>
-                <label htmlFor="confirm-password">Confirm Password</label>
-                <input type="password" placeholder="Confirm Password" required id="confirm-password" onChange={handleChange} name="confirmpassword" autoComplete="section-red shipping postal-code" value={formField.confirmpassword} />
-                <input type="submit" value="Sign Up" />
-            </form>
-        </div>
+export const SignUp = () => {
+    const [formField, setFormField] = useState(defaultFormData);
+    const createUserAccount = async ({ email, password, displayName }) => {
+        try {
+            const userResponseAuth = await createAutheticateUserWithEmailAndPassword(email, password);
+            const { user } = userResponseAuth;
+            //! Add displaynamed to the Data in the users docuement @ firestore
+            await createUserDocumentFromAuth(user, { displayName });
+        }
+        catch (error) {
+            console.log('Error creating User: ', error.message)
+        }
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const {
+            password,
+            confirmpassword
+        } = formField;
+        if (password === confirmpassword) {
+            (async () => {
+                try {
+                    await createUserAccount(formField);
+                    // Reset Form
+                    setFormField(defaultFormData);
+                }
+                catch (error) {
+                    console.log('Error creating User, ', error.message)
+                }
+            })()
+        } else {
+            console.log("Passwords do not match")
+        };
+    }
+    return (<div className='sign-up-container'>
+        <h2>Don't have an account?</h2>
+        <span>Sign Up With Email and Password</span>
+        <Form handleSubmit={handleSubmit} formField={formField} setFormField={setFormField} />
+    </div>
     )
 }
