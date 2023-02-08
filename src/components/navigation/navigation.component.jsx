@@ -1,4 +1,3 @@
-import '../../utilities/firebase/firebase.utils';
 import { Outlet, Link } from "react-router-dom";
 import { useContext } from "react";
 import { ReactComponent as CrwnLogo } from '../../content/images/crown.svg';
@@ -8,10 +7,11 @@ import { signOutUser } from "../../utilities/firebase/firebase.auth";
 import './navigation.styles.scss';
 
 const Navigation = () => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext);
     const signOutHandler = async () => {
         await signOutUser();
-        setCurrentUser(prevUser => null)
+        //* Handled by onAuthStateChanged
+        // setCurrentUser(prevUser => null)
     }
     return (
         <>

@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { SignInUserWithEmailAndPassword } from '../../utilities/firebase/firebase.auth';
 import { signInWithGooglePopup } from '../../utilities/firebase/firebase.auth';
-import {createUserDocumentFromAuth} from '../../utilities/firebase/firebase.database';
+import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.database';
 
-import { UserContext } from '../context/user.context';
+// import { UserContext } from '../context/user.context';
 import { Input } from '../forms/inputs/inputs.component';
 import { Button } from '../button/button.component';
 
@@ -14,7 +14,7 @@ const defaultFormData = {
 
 export const SignInForm = () => {
     const [formData, setFormField] = useState(defaultFormData)
-    const {setCurrentUser} = useContext(UserContext); 
+    // const { setCurrentUser } = useContext(UserContext);
     const handleSubmit = (e) => {
         e.preventDefault();
         const {
@@ -22,9 +22,11 @@ export const SignInForm = () => {
             password
         } = formData;
         (async () => {
-                const {user} = await SignInUserWithEmailAndPassword( email, password);
-                setFormField(defaultFormData);
-                setCurrentUser(previousUser => user);
+            await SignInUserWithEmailAndPassword(email, password);
+            // const { user } = await SignInUserWithEmailAndPassword(email, password);
+            setFormField(defaultFormData);
+            //* Handled by onAuthStateChanged
+            // setCurrentUser(previousUser => user);
         })()
     }
     const handleChange = (e) => {
@@ -35,20 +37,20 @@ export const SignInForm = () => {
     const logGoogleUser = async () => {
         const userAuthResponse = await signInWithGooglePopup();
         const { user } = userAuthResponse;
+        //* Handled by onAuthStateChanged
+        // setCurrentUser(previousUser => user);
         await createUserDocumentFromAuth(user);
     }
 
     return (<div className='sign-up-container'>
         <h2>Don't have an account?</h2>
         <span>Sign Up With Email and Password</span>
-        <form onSubmit={handleSubmit}>
-            <Input label={true}  required={true} id="email" placeholder="Email" type="email" changeHandler={handleChange} formField={formData} />
+        <form onSubmit={handleSubmit} id='form'>
+            <Input label={true} required={true} id="email" placeholder="Email" type="email" changeHandler={handleChange} formField={formData} />
             <Input label={true} required={true} id="password" placeholder="Password" type="password" changeHandler={handleChange} formField={formData} />
-            <div className="">
-            <Button type="submit" > Submit </Button><br/>
-            <Button type='button' buttonType='google-button' onClick={logGoogleUser}>Google Sign In</Button><br />
-            </div>
+            <Button btnType="submit" form='form'> Submit </Button><br />
         </form>
+            <Button btnType='button' form='' classname='google-button' action={logGoogleUser}>Google Sign In</Button><br />
     </div>
     )
 }
