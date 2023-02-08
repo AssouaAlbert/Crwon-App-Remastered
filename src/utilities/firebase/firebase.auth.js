@@ -1,4 +1,4 @@
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signOut, signInWithPopup, signInWithRedirect, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 /*----------------------- Authentication  -----------------------*/
 const provider = new GoogleAuthProvider();
@@ -36,4 +36,12 @@ const SignInUserWithEmailAndPassword = async (email, password) => {
         console.log('Error authenticatinng user, using email and password', e);
     }
 }
-export { auth, signInWithGooglePopup, signInWithGoogleRedirect, createAutheticateUserWithEmailAndPassword, SignInUserWithEmailAndPassword };
+const signOutUser = async () => {
+    await signOut(auth).then(() => {
+        
+      }).catch((error) => {
+        console.log(error.message)
+      })
+}
+
+export {signOutUser, signInWithGooglePopup, signInWithGoogleRedirect, createAutheticateUserWithEmailAndPassword, SignInUserWithEmailAndPassword };
