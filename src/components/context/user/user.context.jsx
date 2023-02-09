@@ -1,7 +1,7 @@
-import '../../utilities/firebase/firebase.utils';
-import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.database';
+import '../../../utilities/firebase/firebase.utils';
+import { createUserDocumentFromAuth } from '../../../utilities/firebase/firebase.database';
 import { createContext, useState, useEffect } from 'react';
-import { onAuthStateChangedListener } from '../../utilities/firebase/firebase.auth';
+import { onAuthStateChangedListener } from '../../../utilities/firebase/firebase.auth';
 export const UserContext = createContext({ currentUser: null, setCurrentUser: () => null });
 
 export const UserProvider = ({ children }) => {

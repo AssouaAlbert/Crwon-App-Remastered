@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
-import { UserProvider } from './components/context/user.context';
+import { UserProvider } from './components/context/user/user.context';
+import { ShopProvider } from './components/context/shop/shop.context';
 import App from './App';
 import './index.css';
 
@@ -11,9 +12,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ShopProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ShopProvider>
     </UserProvider>
   </React.StrictMode>
 );
