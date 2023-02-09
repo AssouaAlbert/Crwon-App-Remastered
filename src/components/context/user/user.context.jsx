@@ -12,6 +12,8 @@ export const UserProvider = ({ children }) => {
             if(user) { createUserDocumentFromAuth(user)} 
             setCurrentUser(prevUser => user)
         });
+        return unsubscribe;
+        
     }, [])
     return (
         <UserContext.Provider value={{ currentUser, setCurrentUser }}>
