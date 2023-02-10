@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import {  useEffect, useRef, useContext } from 'react';
 import { CartDropDownContext } from '../../components/context/cart-dropdown/cart-drop-down.context';
 
 
