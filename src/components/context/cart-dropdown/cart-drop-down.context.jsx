@@ -1,9 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
 
-const addCartItem = (cartitems, productToAdd) => {
-
-    return [...cartitems, { ...productToAdd, quantity: 1 }]
-}
 
 export const CartDropDownContext = createContext({
     dropdown: false,
@@ -23,7 +19,7 @@ export const CartDropDownProvider = ({ children }) => {
     const removeItemToCart = (productToRemove) => {
         setCartItems(prevCart => {
             const existingCartItem = prevCart.find((product) => {
-                return productToRemove.id == product.id;
+                return productToRemove.id === product.id;
             })
             if (existingCartItem.quantity > 1) {
                 return prevCart.map((item) => {
@@ -35,7 +31,7 @@ export const CartDropDownProvider = ({ children }) => {
             }
             else {
                 return prevCart.filter(product => {
-                    return product.id != productToRemove.id;
+                    return product.id !== productToRemove.id;
                 })
             }
         })
@@ -43,11 +39,11 @@ export const CartDropDownProvider = ({ children }) => {
     const addCartItems = (productToAdd) => {
         setCartItems(prevCart => {
             const existingCartItem = prevCart.find((product) => {
-                return productToAdd.id == product.id;
+                return productToAdd.id === product.id;
             })
             if (existingCartItem) {
                 return prevCart.map(product => {
-                    return product.id == productToAdd.id ? { ...product, quantity: product.quantity + 1 } : product;
+                    return product.id === productToAdd.id ? { ...product, quantity: product.quantity + 1 } : product;
                 })
             }
             return [...prevCart, { ...productToAdd, quantity: 1 }];
@@ -56,11 +52,11 @@ export const CartDropDownProvider = ({ children }) => {
     const clearItemFromCart = (productToClear) => {
         setCartItems(prevCart => {
             const existingCartItem = prevCart.find((product) => {
-                return productToClear.id == product.id;
+                return productToClear.id === product.id;
             })
             if (existingCartItem) {
                 return prevCart.filter(product => {
-                    return product.id != productToClear.id;
+                    return product.id !== productToClear.id;
                 })
             }
         })
