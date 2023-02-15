@@ -1,10 +1,12 @@
 import {
     getFirestore,
     doc, //! Used to get an snapshot of a document in firestore
-    getDoc, //! Used to get the data in the document above
-    setDoc, //! Used to set the data in the document above
+    getDoc, //! Used to get the data in the document
+    getDocs, //! Used to get the multi-data in the document 
+    setDoc, //! Used to set the data in the document 
     collection, //! Used to get an snapshot of a collection in firestore
     writeBatch, //! Used to handle transactions in the firestore
+    query, //! 
 } from 'firebase/firestore';
 
 /*----------------------- Database  -----------------------*/
@@ -24,6 +26,28 @@ export const addCollectionAndDocuements = async (collectionKey, objectsToAdd) =>
     await batch.commit();
 }
 
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'collections');
+    //! Specifying which documents you want to retrieve from a collection or collection group (Create a query against the collection.)
+    //* Example: query(citiesRef, where("title", "==", hats));
+    //* In the line above we do not specify any constains
+    const q = query(collectionRef);
+    //! use the get() function to retrieve the results/snapshot
+    const querySnapshot = await getDocs(q);
+    let categoryMap = [];
+    querySnapshot.forEach((doc) => {
+        const data = doc.data()
+        categoryMap = [...categoryMap, data]
+    });
+    /**************Alternative **********************/
+    // const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    //     const { title, items } = docSnapshot.data();
+    //     acc[title.toLowerCase()] = items;
+    //     return acc;
+    // }, {});
+    // console.log('categoryMap:', categoryMap)
+    return categoryMap;
+};
 
 
 const createUserDocumentFromAuth = async (userAuthResponse, extrafields = {}) => {
