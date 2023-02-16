@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import ProductCard from '../product-card/product-card.component';
 import './collection-preview.component.scss'
 
 const CollectionPreview = ({title, shopData}) => {
     return (<>
-        <h2 className='category-preview-container'><span>{title.toUpperCase()}</span></h2>
+        <h2 className='category-preview-container'><span><Link to={`${title}`}>{title.toUpperCase()}</Link></span></h2>
         <div className="products-container">
             {
                 shopData[title].map((product, index) => {

@@ -1,34 +1,13 @@
-import { useContext, Fragment } from "react";
-import { ShopContext } from "../../components/context/shop/shop.context";
-import CollectionPreview from '../../components/collection-preview/collection-preview.component';
-// import ProductCard from "../../components/product-card/product-card.component";
+import { Routes, Route } from 'react-router-dom';
+import CollectionPreviewRoute from '../collection-preview/collection-preview.route';
+import Collection from '../collection/collection.component';
 import './shop-styles.scss'
 const Shop = () => {
-    const { shopData } = useContext(ShopContext)
-    return (<>
-        <h1 className="title">Shop</h1>
-        {
-            // shopData.map((collection) => {
-            //     return (<Fragment key={collection.title}>
-            //         <h2>{collection.title}</h2>
-            //         <div className="products-container">
-            //             {
-            //                 collection.items.map((product) => {
-            //                     return (
-            //                         <ProductCard key={product.id} product={product} />
-            //                     )
-            //                 })
-            //             }
-            //         </div>
-            //     </Fragment>)
-            // })
-            Object.keys(shopData).map((title) => {
-                return (<Fragment key={title}>
-                    <CollectionPreview title={title} shopData={shopData} />
-                </Fragment>)
-            })
-        }
-    </>
+    return (
+        <Routes>
+            <Route index element={<CollectionPreviewRoute />} />
+            <Route path=':collection' element={<Collection />} />
+        </Routes>
     )
 }
 
