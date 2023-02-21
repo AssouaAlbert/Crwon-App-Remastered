@@ -1,21 +1,24 @@
 import { Outlet } from "react-router-dom";
 import { useContext } from "react";
+import {useSelector} from 'react-redux';
 
-import { UserContext } from "../context/user/user.context";
 import { signOutUser } from "../../utilities/firebase/firebase.auth";
 import { CartDropDownContext } from "../context/cart-dropdown/cart-drop-down.context";
 import {NavigationContainer, NavLinksContainer, NavLink, LogoContainer } from'./navigation.styles';
+
+import { selectUser } from "../../redux/reducer/user/user.utils";
 import { ReactComponent as CrwnLogo } from '../../content/images/crown.svg';
 import CartIcon from "../cart-icon/cart-icon.compoenent";
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 const Navigation = () => {
-    const { currentUser } = useContext(UserContext);
+    const currentUser = useSelector(selectUser);
     const { dropdown } = useContext(CartDropDownContext);
     const signOutHandler = async () => {
         await signOutUser();
         //* Handled by onAuthStateChanged
         // setCurrentUser(prevUser => null)
+        
     }
     return (
         <>
