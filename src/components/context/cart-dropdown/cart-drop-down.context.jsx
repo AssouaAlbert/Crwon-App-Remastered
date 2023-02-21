@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useReducer } from 'react';
+
 
 
 export const CartDropDownContext = createContext({
@@ -7,17 +8,64 @@ export const CartDropDownContext = createContext({
     cartItems: [],
     addCartItems: () => { },
     removeItemToCart: () => { },
+    clearItemFromCart: () => { },
     totalCartItems: 0,
     totalCost: 0
 });
 
+const CART_DROP_DOWN_ACTIONS = {
+    SET_IS_CART_OPEN: 'SET_IS_CART_OPEN',
+    SET_CART_ITEMS: 'SET_CART_ITEMS',
+    SET_CART_COUNT: 'SET_CART_COUNT',
+    SET_CART_TOTAL: 'SET_CART_TOTAL',
+}
+
+const CartDropDownReducer = (prevState, action) => {
+    const { type, payload } = action;
+    switch (type) {
+        case CART_DROP_DOWN_ACTIONS.SET_CART_ITEMS:
+            return {
+                ...prevState,
+                ...payload,
+            };
+        case CART_DROP_DOWN_ACTIONS.SET_IS_CART_OPEN:
+            return {
+                ...prevState,
+                ...payload,
+            };
+        default:
+            throw new Error(`Unhandled type ${type} in cartReducer`);
+    }
+}
+
 export const CartDropDownProvider = ({ children }) => {
-    const [dropdown, setDropdown] = useState(false);
-    const [cartItems, setCartItems] = useState([]);
-    const [totalCartItems, settotalCartItems] = useState(0);
-    const [totalCost, setTotalCost] = useState(0);
+    const [cartDropDownState, cartDropDownDispatch] = useReducer(CartDropDownReducer, {
+        dropdown: false,
+        cartItems: [],
+        totalCartItems: 0,
+        totalCost: 0,
+        setDropdown: () => { }
+    });
+    const { totalCost, totalCartItems, cartItems, dropdown } = cartDropDownState;
+    // const [dropdown, setDropdown] = useState(false);
+
+
+    const updateCartItemsReducer = (cartItems) => {
+        const newTotalCartItems = cartItems.reduce((total, product) => total + product.quantity,
+            0)
+        const newTotaCost = cartItems.reduce((total, product) => total + (product.price * product.quantity),
+            0)
+
+        const payload = {
+            cartItems,
+            totalCartItems: newTotalCartItems,
+            totalCost: newTotaCost
+        }
+        cartDropDownDispatch({ type: CART_DROP_DOWN_ACTIONS.SET_CART_ITEMS, payload });
+    }
+
     const removeItemToCart = (productToRemove) => {
-        setCartItems(prevCart => {
+        const setCartItems = (prevCart = cartItems) => {
             const existingCartItem = prevCart.find((product) => {
                 return productToRemove.id === product.id;
             })
@@ -34,10 +82,11 @@ export const CartDropDownProvider = ({ children }) => {
                     return product.id !== productToRemove.id;
                 })
             }
-        })
+        }
+        updateCartItemsReducer(setCartItems());
     }
     const addCartItems = (productToAdd) => {
-        setCartItems(prevCart => {
+        const setCartItems = (prevCart = cartItems) => {
             const existingCartItem = prevCart.find((product) => {
                 return productToAdd.id === product.id;
             })
@@ -47,10 +96,11 @@ export const CartDropDownProvider = ({ children }) => {
                 })
             }
             return [...prevCart, { ...productToAdd, quantity: 1 }];
-        })
+        }
+        updateCartItemsReducer(setCartItems());
     }
     const clearItemFromCart = (productToClear) => {
-        setCartItems(prevCart => {
+        const setCartItems = (prevCart = cartItems) => {
             const existingCartItem = prevCart.find((product) => {
                 return productToClear.id === product.id;
             })
@@ -59,18 +109,16 @@ export const CartDropDownProvider = ({ children }) => {
                     return product.id !== productToClear.id;
                 })
             }
-        })
+        }
+        updateCartItemsReducer(setCartItems());
     }
-    useEffect(() => {
-        const newTotalCartItems = cartItems.reduce((total, product) => total+product.quantity,
-        0)
-        settotalCartItems(prevTotalCartItems => newTotalCartItems)
-    }, [cartItems])
-    useEffect(() => {
-        const newTotaCost = cartItems.reduce((total, product) => total+(product.price * product.quantity),
-        0)
-        setTotalCost(prevTotalCost => newTotaCost)
-    }, [cartItems])
+    const setDropdown = (dropdown) => {
+        const payload = {
+            dropdown: !dropdown,
+        }
+        cartDropDownDispatch({ type: CART_DROP_DOWN_ACTIONS.SET_IS_CART_OPEN, payload });
+    }
+
 
 
     return (

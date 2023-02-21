@@ -5,10 +5,10 @@ import './cart-icon.styles.scss';
 import { ReactComponent as ShoppingIcon } from '../../content/images/shopping-bag.svg';
 
 const CartIcon = () => {
-    const { setDropdown, totalCartItems } = useContext(CartDropDownContext);
+    const { setDropdown, totalCartItems, dropdown } = useContext(CartDropDownContext);
     // const { ref } = SwithVisibility(CartDropDownContext);
     const dropdownSwitch = () => {
-        setDropdown(prevState => !prevState)
+        setDropdown(dropdown)
     };
     return (
         <>
