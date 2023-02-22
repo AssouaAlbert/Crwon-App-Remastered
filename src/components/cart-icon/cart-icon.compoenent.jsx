@@ -8,7 +8,7 @@ const CartIcon = () => {
     const { setDropdown, totalCartItems, dropdown } = useContext(CartDropDownContext);
     // const { ref } = SwithVisibility(CartDropDownContext);
     const dropdownSwitch = () => {
-        setDropdown(prevState => dropdown)
+        setDropdown(dropdown)
     };
     return (
         <>

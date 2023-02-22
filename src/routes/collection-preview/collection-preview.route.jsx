@@ -1,8 +1,23 @@
-import { useContext, Fragment } from "react";
-import { ShopContext } from "../../components/context/shop/shop.context";
+import { Fragment, useEffect} from "react";
+import {useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
+
+import { selectShopData } from "../../redux/reducer/shop/shop.utils";
+import { setShopData } from "../../redux/reducer/shop/shop.utils";
+import { getCategoriesAndDocuments } from "../../utilities/firebase/firebase.database"; 
 import CollectionPreview from '../../components/collection-preview/collection-preview.component';
+
 const CollectionPreviewRoute = () => {
-    const { shopData } = useContext(ShopContext)
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        (async ()=> {
+          const collections = await getCategoriesAndDocuments();
+          dispatch(setShopData(collections));
+      })()
+      }, [dispatch])
+
+    const  shopData  = useSelector(selectShopData);
     return (<>
         <h1 className="title">Shop</h1>
         {

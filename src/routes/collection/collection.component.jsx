@@ -1,12 +1,16 @@
 import { useParams } from "react-router";
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import {useSelector} from 'react-redux';
+
+import { selectShopData } from "../../redux/reducer/shop/shop.utils";
+
 import ProductCard from "../../components/product-card/product-card.component";
-import { ShopContext } from "../../components/context/shop/shop.context";
+
 import './collection.style.scss';
 
 const Collection = () => {
     const { collection } = useParams();
-    const { shopData } = useContext(ShopContext);
+    const shopData = useSelector(selectShopData);
     const [products, setProducts] = useState([]);
     useEffect(() => {
         setProducts(prev => shopData[collection]);

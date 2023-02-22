@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router";
 
 const CategoryItem = ({title, imageUrl, route}) => {
-    console.log('route:', route)
     const navigate = useNavigate();
     const navigateHandler = () => navigate(route)
     return (<div className="category-container" onClick={navigateHandler}>

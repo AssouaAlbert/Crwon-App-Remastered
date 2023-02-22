@@ -34,14 +34,23 @@ export const getCategoriesAndDocuments = async () => {
     const q = query(collectionRef);
     //! use the get() function to retrieve the results/snapshot
     const querySnapshot = await getDocs(q);
-    /**************Alternative **********************/
+    /************** Alternative was not used until redux (Course 159)**********************/
     // let categoryMap = [];
-    // querySnapshot.forEach((doc) => {
-    //     const data = doc.data()
+    // querySnapshot.forEach(async (docShapshot) => {
+    //     const data = docShapshot.data()
     //     categoryMap = [...categoryMap, data]
     // });
+    /**************Alternative **********************/
+    // let categoryMap = [];
+    // querySnapshot.forEach((docShapshot) => {
+    //     const data = docShapshot.data()
+    //     categoryMap = [...categoryMap, data]
+    // });
+
+    /**************Alternative **********************/
     const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
         const { title, items } = docSnapshot.data();
+        acc[title.toLowerCase()] = items;
         acc[title.toLowerCase()] = items;
         return acc;
     }, {});
