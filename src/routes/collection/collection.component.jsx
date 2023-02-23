@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useState, useEffect } from 'react'
 import {useSelector} from 'react-redux';
 
-import { selectShopData } from "../../redux/reducer/shop/shop.utils";
+import { selectShopData } from "../../redux/selectors/shop.seclector";
 
 import ProductCard from "../../components/product-card/product-card.component";
 
