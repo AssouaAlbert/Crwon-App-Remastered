@@ -7,10 +7,10 @@ import Home from './routes/home/home.component';
 import Navigation from "./components/navigation/navigation.component";
 import Shop from './routes/shop/shop.component';
 import Authentication from './routes/authentication/authentication.component';
-import CheckOut from './routes/check-out/checkout.compoenent';
+import CheckOut from './routes/check-out/checkout.component';
 
 import { onAuthStateChangedListener } from './utilities/firebase/firebase.auth';
-import { setCurrentUser } from './redux/reducer/user/user.utils';
+import { setCurrentUser } from "./redux/actions/user.actions";
 
 
 const App = () => {

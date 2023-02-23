@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import './utilities/firebase/firebase.utils';
-import { CartDropDownProvider } from './components/context/cart-dropdown/cart-drop-down.context';
 import { store } from './redux/store/store';
 import App from './App';
 import './index.css';
@@ -13,11 +12,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-          <CartDropDownProvider>
             <BrowserRouter>
               <App />
             </BrowserRouter>
-          </CartDropDownProvider>
     </Provider>
   </React.StrictMode>
 );

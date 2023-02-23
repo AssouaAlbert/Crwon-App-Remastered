@@ -1,14 +1,16 @@
-import { useContext } from 'react';
-import { CartDropDownContext } from '../context/cart-dropdown/cart-drop-down.context';
-// import SwithVisibility from '../../utilities/hooks/switchVisiblitiy.hook'
+import {useSelector, useDispatch} from "react-redux";
+
+import { selectCartDropDown, selectCartCount } from '../../redux/selectors/cartDropDown.selector';
+import { setDropdown } from '../../redux/actions/cartDropDown.action';
 import './cart-icon.styles.scss';
 import { ReactComponent as ShoppingIcon } from '../../content/images/shopping-bag.svg';
 
 const CartIcon = () => {
-    const { setDropdown, totalCartItems, dropdown } = useContext(CartDropDownContext);
-    // const { ref } = SwithVisibility(CartDropDownContext);
+    const dispatch = useDispatch();
+    const  dropdown  = useSelector(selectCartDropDown);
+    const  totalCartItems  = useSelector(selectCartCount);
     const dropdownSwitch = () => {
-        setDropdown(dropdown)
+        dispatch(setDropdown(dropdown))
     };
     return (
         <>

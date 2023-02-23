@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
 
 import { getCategoriesAndDocuments } from '../../utilities/firebase/firebase.database';
-import { setShopData } from "../../redux/reducer/shop/shop.utils";
+import { setShopData } from "../../redux/actions/shop.actions"
 
 import CollectionPreviewRoute from '../collection-preview/collection-preview.route';
 import Collection from '../collection/collection.component';

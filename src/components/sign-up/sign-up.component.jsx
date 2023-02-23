@@ -15,7 +15,6 @@ const defaultFormData = {
 
 export const SignUp = () => {
     const [formField, setFormField] = useState(defaultFormData);
-    // const {setCurrentUser} = useContext(UserContext);
     const createUserAccount = async ({ email, password, displayName }) => {
         try {
             const userResponseAuth = await createAutheticateUserWithEmailAndPassword(email, password);

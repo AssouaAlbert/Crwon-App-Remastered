@@ -14,7 +14,6 @@ const defaultFormData = {
 
 export const SignInForm = () => {
     const [formData, setFormField] = useState(defaultFormData)
-    // const { setCurrentUser } = useContext(UserContext);
     const handleSubmit = (e) => {
         e.preventDefault();
         const {
