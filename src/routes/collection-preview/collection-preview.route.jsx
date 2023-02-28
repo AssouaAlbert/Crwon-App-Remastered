@@ -1,14 +1,17 @@
-import { Fragment} from "react";
-import {useSelector} from "react-redux";
+import { Fragment } from "react";
+import { useSelector } from "react-redux";
 
-import { selectShopData } from "../../redux/selectors/shop.seclector";
+import { selectShopData, selectShopDataIsLoading } from "../../redux/selectors/shop.seclector";
 import CollectionPreview from '../../components/collection-preview/collection-preview.component';
+import Spinner from "../../components/spinner/spinner.compoenent";
 
 const CollectionPreviewRoute = () => {
-    const  shopData  = useSelector(selectShopData);
+    const shopData = useSelector(selectShopData);
+    const isLoading = useSelector(selectShopDataIsLoading);
 
     return (<>
-        <h1 className="title">Shop</h1>
+   { isLoading ? <Spinner/> : <>
+   <h1 className="title">Shop</h1>
         {
             // shopData.map((collection) => {
             //     return (<Fragment key={collection.title}>
@@ -29,7 +32,9 @@ const CollectionPreviewRoute = () => {
                     <CollectionPreview title={title} shopData={shopData} />
                 </Fragment>)
             })
-        }
+        }</> 
+   }
+        
     </>
     )
 }

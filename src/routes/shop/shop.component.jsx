@@ -2,8 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
 
-import { getCategoriesAndDocuments } from '../../utilities/firebase/firebase.database';
-import { setShopData } from "../../redux/actions/shop.actions"
+import { fetchShopDataAsync } from "../../redux/actions/shop.actions"
 
 import CollectionPreviewRoute from '../collection-preview/collection-preview.route';
 import Collection from '../collection/collection.component';
@@ -13,8 +12,7 @@ const Shop = () => {
 
     useEffect(() => {
         (async ()=> {
-          const collectionsArray = await getCategoriesAndDocuments();
-          dispatch(setShopData(collectionsArray));
+          dispatch(fetchShopDataAsync());
       })()
       }, [dispatch])
 

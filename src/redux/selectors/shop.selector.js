@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 const selectShopReducer = (state) => {
-    return state.shop.shopData
+    return state.shop
 }
 
 // /** Example */
@@ -15,8 +15,8 @@ const selectShopReducer = (state) => {
 /**Implementation */
 export const selectShopData = createSelector( 
     [selectShopReducer],
-    (shopData)=> {
-        return shopData.reduce((acc, docSnapshot) => {
+    (shop)=> {
+        return shop.shopData.reduce((acc, docSnapshot) => {
             const { title, items } = docSnapshot;
             acc[title.toLowerCase()] = items;
             return acc;
@@ -33,3 +33,8 @@ export const selectShopData = createSelector(
 //         return acc;
 //     }, {});
 // };
+
+export const selectShopDataIsLoading= createSelector( 
+    [selectShopReducer],
+    (shop) => shop.isLoading
+)
