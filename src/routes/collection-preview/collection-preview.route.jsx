@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 
-import { selectShopData, selectShopDataIsLoading } from "../../redux/selectors/shop.seclector";
+import { selectShopData, selectShopDataIsLoading } from "../../redux/selectors/shop.selector";
 import CollectionPreview from '../../components/collection-preview/collection-preview.component';
 import Spinner from "../../components/spinner/spinner.compoenent";
 

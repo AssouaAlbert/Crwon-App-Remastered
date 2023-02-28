@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch} from 'react-redux';
 
-import { fetchShopDataAsync } from "../../redux/actions/shop.actions"
+import { fetchShopDataStart } from "../../redux/actions/shop.actions"
 
 import CollectionPreviewRoute from '../collection-preview/collection-preview.route';
 import Collection from '../collection/collection.component';
@@ -12,7 +12,7 @@ const Shop = () => {
 
     useEffect(() => {
         (async ()=> {
-          dispatch(fetchShopDataAsync());
+          dispatch(fetchShopDataStart());
       })()
       }, [dispatch])
 

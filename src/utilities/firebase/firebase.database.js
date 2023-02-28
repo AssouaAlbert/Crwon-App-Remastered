@@ -26,8 +26,8 @@ export const addCollectionAndDocuements = async (collectionKey, objectsToAdd) =>
     await batch.commit();
 }
 
-export const getCategoriesAndDocuments = async () => {
-    const collectionRef = collection(db, 'collections');
+export const getCategoriesAndDocuments = async (collection = 'collections') => {
+    const collectionRef = collection(db, collection);
     //! Specifying which documents you want to retrieve from a collection or collection group (Create a query against the collection.)
     //* Example: query(citiesRef, where("title", "==", hats));
     //* In the line above we do not specify any constains
