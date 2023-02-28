@@ -48,4 +48,14 @@ const onAuthStateChangedListener = (clb) => {
     return onAuthStateChanged(auth, clb)
 }
 
-export {  onAuthStateChangedListener, signOutUser, signInWithGooglePopup, signInWithGoogleRedirect, createAutheticateUserWithEmailAndPassword, SignInUserWithEmailAndPassword };
+const getCurrentUser = () => {
+    return new Promise((res, rej) => {
+        const unsubscribe = onAuthStateChanged(auth, (userAuth) => {
+            // unsubscribe if/not there is a user
+            unsubscribe();
+            res(userAuth);
+        }, rej) // this third arguement of onAuthStateChanged is used to handle errors 
+    })
+}
+
+export { getCurrentUser, onAuthStateChangedListener, signOutUser, signInWithGooglePopup, signInWithGoogleRedirect, createAutheticateUserWithEmailAndPassword, SignInUserWithEmailAndPassword };

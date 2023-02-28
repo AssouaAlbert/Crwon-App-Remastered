@@ -26,8 +26,8 @@ export const addCollectionAndDocuements = async (collectionKey, objectsToAdd) =>
     await batch.commit();
 }
 
-export const getCategoriesAndDocuments = async (collection = 'collections') => {
-    const collectionRef = collection(db, collection);
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'collections');
     //! Specifying which documents you want to retrieve from a collection or collection group (Create a query against the collection.)
     //* Example: query(citiesRef, where("title", "==", hats));
     //* In the line above we do not specify any constains
@@ -66,7 +66,7 @@ export const getCategoriesAndDocuments = async (collection = 'collections') => {
 };
 
 
-const createUserDocumentFromAuth = async (userAuthResponse, extrafields = {}) => {
+const createUserDocumentFromAuth = async (userAuthResponse, extraFields = {}) => {
     //* In the instance/snapshot of the database;db, search for document; users using primarykey;userAuthResponse.uid
     //* And return ref to this record. If the record does not exist firebase creates a unique path/reference to this documents
     //! This is because the is no harm since not= conflickts are found
@@ -83,14 +83,16 @@ const createUserDocumentFromAuth = async (userAuthResponse, extrafields = {}) =>
                 email,
                 createdAt,
                 displayName,
-                ...extrafields
+                ...extraFields
             })
         }
         catch (error) {
             console.log('DB Error creating User:', error.message)
         }
     }
-    return userRef;
+    //Changed in redux saga
+    // return userRef;
+    return userSnapshot;
 }
 
 export { createUserDocumentFromAuth };

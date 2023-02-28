@@ -16,7 +16,7 @@ export function* fetchShopDataAsync() {
     try {
         // Generators are the foundations for async await, you can't have sync await in generator functions
         // const collectionsArray = await getCategoriesAndDocuments();
-        const collectionsArray = yield call(getCategoriesAndDocuments, 'collection');
+        const collectionsArray = yield call(getCategoriesAndDocuments);
         // dispatch(fetchShopDataSuccess(collectionsArray));
         yield put(fetchShopDataSuccess(collectionsArray));
     } catch (error) {
