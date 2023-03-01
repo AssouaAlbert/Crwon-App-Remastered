@@ -19,7 +19,8 @@ export const userReducer = (prevState = INITIAL_STATE, action: Object) => {
         case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
             return {
                 ...prevState,
-                currentUser: payload
+                currentUser: payload,
+                isLoading: false
             }
         case USER_ACTION_TYPES.GOOGLE_SIGN_IN_START:
             return {
@@ -34,7 +35,25 @@ export const userReducer = (prevState = INITIAL_STATE, action: Object) => {
         case USER_ACTION_TYPES.SIGN_IN_FAILURE:
             return {
                 ...prevState,
-                error: payload
+                error: payload,
+                isLoading: false
+            }
+        case USER_ACTION_TYPES.SIGN_UP_FAILURE:
+            return {
+                ...prevState,
+                error: payload,
+                isLoading: false
+            }
+        case USER_ACTION_TYPES.SIGN_UP_START:
+            return {
+                ...prevState,
+                isLoading: true
+            }
+        case USER_ACTION_TYPES.SIGN_UP_SUCCESS:
+            return {
+                ...prevState,
+                currentUser: payload,
+                isLoading: false
             }
         default:
             // return new Error(`Unhandled type ${type} in reducer function`);

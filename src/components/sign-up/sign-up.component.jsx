@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { createAutheticateUserWithEmailAndPassword } from '../../utilities/firebase/firebase.auth';
-import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.database';
+import {useDispatch} from 'react-redux';
+import { signUpStart } from '../../redux/actions/user.actions';
 import { Form } from '../../components/forms/sign-up/sign-up-form.component';
 
 // import { UserContext } from '../context/user.context';
@@ -14,30 +14,19 @@ const defaultFormData = {
 }
 
 export const SignUp = () => {
+    const dispatch = useDispatch();
     const [formField, setFormField] = useState(defaultFormData);
-    const createUserAccount = async ({ email, password, displayName }) => {
-        try {
-            const userResponseAuth = await createAutheticateUserWithEmailAndPassword(email, password);
-            const { user } = userResponseAuth;
-            //! Add displaynamed to the Data in the users docuement @ firestore
-            await createUserDocumentFromAuth(user, { displayName });
-            // setCurrentUser(prevUser => user);
-        }
-        catch (error) {
-            console.log('Error creating User: ', error.message)
-        }
-    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const {
             password,
-            confirmpassword
+            confirmpassword, email, displayName
         } = formField;
         if (password === confirmpassword) {
             (async () => {
                 try {
-                    await createUserAccount(formField);
+                    dispatch(signUpStart(email, password, displayName));
                     // Reset Form
                     setFormField(defaultFormData);
                 }

@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { SignInUserWithEmailAndPassword } from '../../utilities/firebase/firebase.auth';
-import { signInWithGooglePopup } from '../../utilities/firebase/firebase.auth';
-import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.database';
+// import { SignInUserWithEmailAndPassword } from '../../utilities/firebase/firebase.auth';
+// import { signInWithGooglePopup } from '../../utilities/firebase/firebase.auth';
+// import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.database';
+import {useDispatch} from 'react-redux';
+import { googleSignInStart, emailSignInStart } from '../../redux/actions/user.actions';
 
 // import { UserContext } from '../context/user.context';
 import { Input } from '../forms/inputs/inputs.component';
@@ -13,6 +15,7 @@ const defaultFormData = {
 }
 
 export const SignInForm = () => {
+    const dispatch = useDispatch();
     const [formData, setFormField] = useState(defaultFormData)
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -20,25 +23,16 @@ export const SignInForm = () => {
             email,
             password
         } = formData;
-        (async () => {
-            await SignInUserWithEmailAndPassword(email, password);
-            // const { user } = await SignInUserWithEmailAndPassword(email, password);
-            setFormField(defaultFormData);
-            //* Handled by onAuthStateChanged
-            // setCurrentUser(previousUser => user);
-        })()
+        dispatch(emailSignInStart(email, password));
+        setFormField(defaultFormData);
     }
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormField({ ...formData, [name]: value })
 
     }
-    const logGoogleUser = async () => {
-        const userAuthResponse = await signInWithGooglePopup();
-        const { user } = userAuthResponse;
-        //* Handled by onAuthStateChanged
-        // setCurrentUser(previousUser => user);
-        await createUserDocumentFromAuth(user);
+    const logGoogleUser = () => {
+        dispatch(googleSignInStart())
     }
 
     return (<div className='sign-up-container'>
@@ -49,7 +43,7 @@ export const SignInForm = () => {
             <Input label={true} required={true} id="password" placeholder="Password" type="password" changeHandler={handleChange} formField={formData} />
             <Button btnType="submit" form='form'> Submit </Button><br />
         </form>
-            <Button btnType='button' form='' classname='google-button' action={logGoogleUser}>Google Sign In</Button><br />
+        <Button btnType='button' form='' classname='google-button' action={logGoogleUser}>Google Sign In</Button><br />
     </div>
     )
 }
