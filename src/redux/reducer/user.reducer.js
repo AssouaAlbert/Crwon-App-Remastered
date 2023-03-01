@@ -32,18 +32,6 @@ export const userReducer = (prevState = INITIAL_STATE, action: Object) => {
                 ...prevState,
                 isLoading: true
             }
-        case USER_ACTION_TYPES.SIGN_IN_FAILURE:
-            return {
-                ...prevState,
-                error: payload,
-                isLoading: false
-            }
-        case USER_ACTION_TYPES.SIGN_UP_FAILURE:
-            return {
-                ...prevState,
-                error: payload,
-                isLoading: false
-            }
         case USER_ACTION_TYPES.SIGN_UP_START:
             return {
                 ...prevState,
@@ -53,6 +41,25 @@ export const userReducer = (prevState = INITIAL_STATE, action: Object) => {
             return {
                 ...prevState,
                 currentUser: payload,
+                isLoading: false
+            }
+        case USER_ACTION_TYPES.SIGN_UP_FAILURE:
+        case USER_ACTION_TYPES.SIGN_OUT_FAILURE:
+        case USER_ACTION_TYPES.SIGN_IN_FAILURE:
+            return {
+                ...prevState,
+                error: payload,
+                isLoading: false
+            }
+        case USER_ACTION_TYPES.SIGN_OUT_START:
+            return {
+                ...prevState,
+                isLoading: true
+            }
+        case USER_ACTION_TYPES.SIGN_OUT_SUCCESS:
+            return {
+                ...prevState,
+                currentUser: null,
                 isLoading: false
             }
         default:

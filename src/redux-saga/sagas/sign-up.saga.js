@@ -13,7 +13,6 @@ export function* signUpAsync({ payload: { email, password, displayName } }) {
         const userResponseAuth = yield call( createAutheticateUserWithEmailAndPassword, email, password);
         const { user } = userResponseAuth;
         const userSnapshot = yield call(createUserDocumentFromAuth,user, { displayName });
-        // const userSnapshot = yield call(createUserDocumentFromAuth, userAuth)
         yield put(emailSignInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
     }
     catch (error) {
