@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import { useState, useEffect } from 'react'
 import {useSelector} from 'react-redux';
 
-import { selectShopData, selectShopDataIsLoading } from "../../redux/selectors/shop.seclector";
+import { selectShopData, selectShopDataIsLoading } from "../../redux/selectors/shop.selector";
 
 import ProductCard from "../../components/product-card/product-card.component";
 import Spinner from "../../components/spinner/spinner.compoenent";
