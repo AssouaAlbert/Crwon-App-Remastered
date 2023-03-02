@@ -6,7 +6,7 @@ import { createUserDocumentFromAuth } from '../../utilities/firebase/firebase.da
 
 import { signInWithGooglePopup, SignInUserWithEmailAndPassword } from '../../utilities/firebase/firebase.auth';
 import {
-    emailSignInSuccess,
+    signInSuccess,
     signInFailure
 } from '../../redux/actions/user.actions';
 
@@ -14,7 +14,7 @@ import {
 export function* getUserSnapshotFromAuth(userAuth, extraFields) {
     try {
         const userSnapshot = yield call(createUserDocumentFromAuth, userAuth, extraFields)
-        yield put(emailSignInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
+        yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }))
     } catch (error) {
         yield put(signInFailure(error));
     }
@@ -26,7 +26,6 @@ export function* fetchUserAsync() {
         const userAuth = yield call(getCurrentUser);
         if (!userAuth) return;
         yield call(getUserSnapshotFromAuth, userAuth);
-        // yield put(emailSignInSuccess(user));
     } catch (error) {
         yield put(signInFailure(error));
     }

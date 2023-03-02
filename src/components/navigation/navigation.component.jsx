@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
-import { signOutUser } from "../../utilities/firebase/firebase.auth";
 import {NavigationContainer, NavLinksContainer, NavLink, LogoContainer } from'./navigation.styles';
 
 import { selectUser } from "../../redux/selectors/user.selector";
@@ -11,14 +10,10 @@ import CartIcon from "../cart-icon/cart-icon.compoenent";
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 const Navigation = () => {
+    const dispatch = useDispatch();
     const currentUser = useSelector(selectUser);
     const dropdown  = useSelector(selectCartDropDown);
-    const signOutHandler = async () => {
-        await signOutUser();
-        //* Handled by onAuthStateChanged
-        // setCurrentUser(prevUser => null)
-        
-    }
+    const signOutHandler = () => {dispatch()};
     return (
         <>
             <NavigationContainer>

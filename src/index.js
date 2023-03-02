@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './utilities/firebase/firebase.utils';
 import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import './utilities/firebase/firebase.utils';
+import {Elements} from '@stripe/react-stripe-js';
+import { stripePromise } from './utilities/stripe/stripe.utils';
 import { store, persistor } from './redux/store/store';
 import App from './App';
 import './index.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,7 +18,9 @@ root.render(
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
+        <Elements stripe={stripePromise}>
           <App />
+        </Elements>
         </BrowserRouter>
       </PersistGate>
     </Provider>

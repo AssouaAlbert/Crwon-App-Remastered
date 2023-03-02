@@ -20,7 +20,8 @@ const persistCofig = {
 };
 const persistedReducer = persistReducer(persistCofig, rootReducer)
 // const middleWares = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean)
-const middleWares = [process.env.NODE_ENV !== 'developement' && logger,
+const middleWares = [
+    // process.env.NODE_ENV !== 'developement' && logger,
  sagaMiddleWare].filter(Boolean)
 const composeEnhancer = (process.env.NODE_ENV !== 'production' &&
     window &&
