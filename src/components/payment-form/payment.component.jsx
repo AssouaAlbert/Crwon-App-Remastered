@@ -1,4 +1,8 @@
+import { useState } from "react";
+import {useSelector} from "react-redux";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+
+
 
 import { Button } from "../button/button.component";
 
@@ -10,18 +14,31 @@ const PaymentForm = () => {
     const paymentHandler = async (e) => {
         e.preventDefault();
         if (!stripe || !elements) return;
-        console.log("object 2");
         const response = await fetch('/.netlify/functions/create-payment-intent.js', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ amount: 10000 }),
-                }).then((res) => {
-                    return res.json();
-                });
-                console.log(response)
+                }).then((res) => {return res.json();});
+                const  {paymentIntent:{client_secret} }= response;
+                const paymentResult = await stripe.confirmCardPayment(client_secret, {
+                    payment_method: {
+                        card: elements.getElement(CardElement),
+                        billing_name:{
+                            name: 'Albert Berto'}
+                    }
+                })
+                if(paymentResult.error){
+                    alert(paymentResult.error)
+                }
+                else {
+                    if(paymentResult.paymentIntent.status === 'succeeded') alert("Payment successful");
+                }
+
+
             }
+                
     return (
         <PaymentFormContainer>
             <FormContainer onSubmit={paymentHandler}>
